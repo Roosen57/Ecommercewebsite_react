@@ -6,17 +6,20 @@ import Auth from './pages/Auth'
 import Checkout from './pages/Checkout'
 import Errorpage from './pages/Errorpage'
 import Navbar from './components/Navbar'
+import AuthProvider from './context/AuthContext'
 
 function App() {
   return (
     <div>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="*" element={<Errorpage />} />
-      </Routes>
+      <AuthProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="*" element={<Errorpage />} />
+        </Routes>
+      </AuthProvider>
     </div>
   )
 }
