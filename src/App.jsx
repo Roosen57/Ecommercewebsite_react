@@ -8,11 +8,13 @@ import ProductPage from './pages/ProductPage'
 import Errorpage from './pages/Errorpage'
 import Navbar from './components/Navbar'
 import AuthProvider from './context/AuthContext'
+import CartProvider from './context/CartContext'
 
 function App() {
   return (
     <div>
       <AuthProvider>
+        <CartProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -23,6 +25,7 @@ function App() {
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="*" element={<Errorpage />} />
         </Routes>
+        </CartProvider>
       </AuthProvider>
     </div>
   )

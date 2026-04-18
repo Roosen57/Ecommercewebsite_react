@@ -2,19 +2,25 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getProductById } from "../products/products";
 import '../components/Navbar.css' 
 import { useState, useEffect } from "react";
+import { useCart } from "../context/CartContext";
 
 export default function ProductPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const { addToCart, cartItems } = useCart();
+
+  
+  
 
   useEffect(() => {
-    const fetchedProduct = getProductById(id);
+    const fetchedProduct = getProductById(Number(id));
     if (!fetchedProduct) {
       navigate("/");
       return;
     }
     setProduct(fetchedProduct);
+    
   }, [id]);
 
   console.log(product);
@@ -28,10 +34,14 @@ export default function ProductPage() {
             </div>
         );
     }
+    
+    const productcheck = cartItems.find(item => item.id === Number(product.id));
+    const productQuantity = productcheck ? ` (${productcheck.quantity})` : '';
+
 
     return (
     <div className='product-card'>
-            <img style={{width: '80%', height: 'auto', objectFit: 'cover'}} src={product.image} alt={product.name} />
+            <img style={{width: '50%', height: 'auto', objectFit: 'cover'}} src={product.image} alt={product.name} />
             <div>
               <h2 style={{textAlign: 'left', padding: '0.5rem'}}> {product.name}</h2>
               <h3 style={{padding: '0.5rem', textAlign: 'left', fontSize: '1.1rem', fontWeight: 'normal'}}>{product.description}</h3>
@@ -39,7 +49,7 @@ export default function ProductPage() {
             </div>
             
             <div style={{padding: '0.5rem', display: 'flex', gap: '0.5rem'}}>
-              <button className='btn btn-primary'>Add to Cart</button>
+              <button onClick={() => addToCart(product.id)} className='btn btn-primary'>Add to Cart {productQuantity}</button>
             </div>
     </div>
     );
